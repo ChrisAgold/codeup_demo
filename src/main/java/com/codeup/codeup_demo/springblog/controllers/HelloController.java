@@ -1,7 +1,6 @@
 package com.codeup.codeup_demo.springblog.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 @Controller
 class HelloController {
 
@@ -34,4 +33,5 @@ class HelloController {
     public String multiply(@PathVariable int number) {
         return number + (number * number) + "!";
     }
+
 }
