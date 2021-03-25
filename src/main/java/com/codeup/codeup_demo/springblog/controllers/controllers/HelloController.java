@@ -1,4 +1,4 @@
-package com.codeup.codeup_demo.springblog.controllers;//package com.codeup.codeup_demo.springblog.controllers;
+package com.codeup.codeup_demo.springblog.controllers.controllers;//package com.codeup.codeup_demo.springblog.controllers;
 //import org.springframework.stereotype.Controller;
 //import org.springframework.ui.Model;
 //import org.springframework.web.bind.annotation.*;
