@@ -1,14 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Title</title>
-    <link href="">
-</head>
-
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: main-head('Hello Page')"></head>
 <body>
+
 Replace <br>
 <nav th:replace="fragments/navbar :: mainNav('Wed')">
     This div will be *replaced* by the fragment
@@ -32,6 +26,6 @@ Include <br>
 </ol>
 
 <h1>Hello, <span th:text="${aName}">ANAME</span>!</h1>
-</body>
 
+</body>
 </html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: main-head('All the Posts')"></head>
+<body>
+
+<main class="container">
+    <div class="post" th:each="post : ${posts}">
+        <h1 th:text="${post.title}"></h1>
+        <p th:text="${post.body}"></p>
+    </div>
+</main>
+
+</body>
+</html>
