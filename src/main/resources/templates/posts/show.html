@@ -1,14 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: main-head('Post Show Page')"></head>
+<head th:replace="partials/head :: head"></head>
 <body>
-
+<nav th:replace="partials/navbar :: navbar"></nav>
 <main class="container">
     <div class="post">
         <h1 th:text="${post.title}"></h1>
         <p th:text="${post.body}"></p>
+        <p>Contact me at <span th:text="${post.owner.email}"></span></p>
+    </div>
+    <form th:action="${'/posts'+post.id +'/delete'}" method="POST">
+        <input type="submit" value="delete ad">
+    </form>
+    <ul class="post" th:each="cat : ${post.categories}">
+        <li th:text="${cat.name}"></li>
+    </ul>
+    <div class="post" th:each="image : ${post.images}">
+        <img th:src="${image.path}" width="200px" height="auto">
     </div>
 </main>
 
+<div th:replace="partials/scripts :: assets"></div>
 </body>
 </html>
