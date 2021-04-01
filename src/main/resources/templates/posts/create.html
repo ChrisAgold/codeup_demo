@@ -2,18 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: main-head('Create')"></head>
 <body>
-<div th:replace="fragments/navbar :: navbar"></div>
-<form action="/posts/create" method="POST">
-    <h2>Create Post Form</h2>
-    <br>
-    <label for="title">Title</label>
-    <input name="post_title" id="title" type="text">
-    <br>
-    <label for="body"> Body</label>
-    <input name="post_body" id="body" type="text">
-    <br>
-    <input type="submit" value="create post">
-</form>
-<div th:replace="fragments/scripts :: assets"></div>
+<!--<div th:replace="fragments/navbar :: navbar"></div>-->
+<!--<form action="/posts/create" method="POST">-->
+<!--    <h2>Create Post Form</h2>-->
+<!--    <br>-->
+<!--    <label for="title">Title</label>-->
+<!--    <input name="post_title" id="title" type="text">-->
+<!--    <br>-->
+<!--    <label for="body"> Body</label>-->
+<!--    <input name="post_body" id="body" type="text">-->
+<!--    <br>-->
+<!--    <input type="submit" value="create post">-->
+<!--</form>-->
+<th:block th:if="${post.id == null}">
+
+    <form th:action="@{/posts/create}" method="post" th:object="${post}">
+
+        <h2>Create Post Form</h2>
+
+        <br>
+
+        <label for="title">Title</label>
+        <input th:field="*{title}" type="text">
+
+        <br>
+
+        <label for="body">body</label>
+        <input th:field="*{body}" type="text">
+
+        <br>
+
+        <input type="submit" value="create post">
+
+    </form>
+
+</th:block>
+<!--<div th:replace="fragments/scripts :: assets"></div>-->
 </body>
 </html>

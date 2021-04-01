@@ -1,12 +1,13 @@
 package com.codeup.springblog.controllers;
+
 import com.codeup.springblog.models.Post;
+import com.codeup.springblog.models.User;
 import com.codeup.springblog.repo.PostRepository;
+import com.codeup.springblog.repo.UserRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,10 @@ import java.util.List;
 public class PostController {
 
     private final PostRepository postDao;
+    private final UserRepository userDao;
 
-    public PostController(PostRepository postDao){
+    public PostController(PostRepository postDao, UserRepository userDao){
+        this.userDao = userDao;
         this.postDao = postDao;
     }
 
@@ -24,29 +27,60 @@ public class PostController {
 
     @GetMapping("/posts")
     public String seeAllPosts(Model viewModel){
-        List<Post> postsFromDB = postDao.searchByBodyLike("post");
+        List<Post> postsFromDB = postDao.findAll();
         viewModel.addAttribute("posts", postsFromDB);
         // do not use a / to reference a template
         return "posts/index";
     }
 
     @GetMapping("/posts/{id}")
-    public String showOnePost(@PathVariable int id, Model vModel){
-        vModel.addAttribute("post", new Post("iPad", "Pro 11in"));
+    public String showOnePost(@PathVariable Long id, Model vModel){
+        vModel.addAttribute("post", postDao.getOne(id));
         return "posts/show";
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
-    public String viewPostForm(){
-        return "You would come here to create a post.";
+    public String viewPostForm(Model vModel){
+        vModel.addAttribute("post",new Post());
+        return "posts/create";
     }
 
-    @PostMapping("/posts/createpost")
-    @ResponseBody
-    public String createPost(){
-        return "You will submit your post here.";
+    @PostMapping("/posts/create")
+    public String createPost(@ModelAttribute Post postToSave){
+
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        // set the user
+        postToSave.setOwner(userToAdd);
+
+        // Now lets save our post;
+        postDao.save(postToSave);
+
+        return "redirect:/posts";
     }
 
+    @GetMapping("/posts/{id}/edit")
+    public String viewEditForm(Model vModel, @PathVariable Long id){
+        vModel.addAttribute("post",postDao.getOne(id));
+        return "posts/create";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String editPost(@ModelAttribute Post postToUpdate, @PathVariable Long id){
+
+        User userToAdd = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        System.out.println();
+
+        postToUpdate.setId(id);
+
+        // set the user
+        postToUpdate.setOwner(userToAdd);
+
+        // Now lets save our post;
+        postDao.save(postToUpdate);
+
+        return "redirect:/posts";
+    }
 
 }

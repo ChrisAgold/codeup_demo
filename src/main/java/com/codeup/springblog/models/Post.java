@@ -5,6 +5,17 @@ import javax.persistence.*;
 @Entity
 @Table(name ="posts" )
 public class Post {
+    @ManyToOne
+    @JoinColumn (name = "owner_id")
+private User owner;
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS adlister_db;
+
+CREATE USER root@localhost IDENTIFIED BY 'Tiaga%89@';
+GRANT ALL ON adlister_db.* TO root@localhost;
